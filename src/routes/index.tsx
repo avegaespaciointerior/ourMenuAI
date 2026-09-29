@@ -1,24 +1,91 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { CalendarDays, Leaf, ShoppingBasket } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: "Menú de la familia — comidas y cenas de la semana" },
+      {
+        name: "description",
+        content:
+          "Planifica las comidas y cenas semanales de tu familia con recetas mediterráneas de siempre y lista de compra por tienda.",
+      },
+      { property: "og:title", content: "Menú de la familia" },
+      {
+        property: "og:description",
+        content:
+          "Menús semanales mediterráneos, adaptados a tu familia, con lista de compra por tienda.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
+  component: Landing,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+const FEATURES = [
+  {
+    icon: CalendarDays,
+    title: "Semana completa",
+    text: "Comida y cena de lunes a domingo, con primero y segundo en cada una.",
+  },
+  {
+    icon: Leaf,
+    title: "Reglas de casa",
+    text: "Legumbres 3 veces, pescado 2, sin pasta en las cenas y sin repetir en 15 días.",
+  },
+  {
+    icon: ShoppingBasket,
+    title: "Compra por tienda",
+    text: "Cantidades sumadas de toda la semana y agrupadas por carnicería, pescadería o súper.",
+  },
+];
+
+function Landing() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      if (data.session) navigate({ to: "/semana" });
+    });
+  }, [navigate]);
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="min-h-screen bg-background">
+      <section className="mx-auto max-w-3xl px-5 pt-20 pb-12 text-center">
+        <p className="text-sm font-medium uppercase tracking-[0.2em] text-primary">
+          Dieta mediterránea de siempre
+        </p>
+        <h1 className="mt-4 font-display text-4xl leading-tight text-foreground sm:text-5xl">
+          El menú de la semana de tu familia, resuelto
+        </h1>
+        <p className="mx-auto mt-4 max-w-xl text-base text-muted-foreground">
+          Menús con verdura y fruta todos los días, recetas sencillas entre semana y la lista de
+          compra lista para salir de casa.
+        </p>
+        <div className="mt-8 flex justify-center">
+          <Button asChild size="lg">
+            <Link to="/auth">Empezar</Link>
+          </Button>
+        </div>
+      </section>
+
+      <section className="mx-auto grid max-w-3xl gap-4 px-5 pb-20 sm:grid-cols-3">
+        {FEATURES.map(({ icon: Icon, title, text }) => (
+          <div key={title} className="rounded-xl border border-border bg-card p-5 text-left">
+            <Icon className="size-6 text-primary" />
+            <h2 className="mt-3 font-display text-lg text-foreground">{title}</h2>
+            <p className="mt-1.5 text-sm text-muted-foreground">{text}</p>
+          </div>
+        ))}
+      </section>
+
+      <footer className="border-t border-border/70 px-5 py-8 text-center text-xs text-muted-foreground">
+        Los menús son orientativos y no sustituyen el consejo de un profesional sanitario.
+      </footer>
     </div>
   );
 }
