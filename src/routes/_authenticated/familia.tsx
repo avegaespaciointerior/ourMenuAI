@@ -104,10 +104,17 @@ function FamiliaPage() {
   });
 
   const updateHousehold = useMutation({
-    mutationFn: async (patch: Record<string, unknown>) => {
-      const { error } = await supabase.from("households").update(patch).eq("id", household!.id);
+    mutationFn: async (patch: {
+      no_cook_slots?: { weekday: number; meal: "comida" | "cena" }[];
+      equipment?: string[];
+    }) => {
+      const { error } = await supabase
+        .from("households")
+        .update(patch as never)
+        .eq("id", household!.id);
       if (error) throw error;
     },
+
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["household"] }),
   });
 
