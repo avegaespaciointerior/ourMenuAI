@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedCompraRouteImport } from './routes/_authenticated/compra'
 import { Route as AuthenticatedFamiliaRouteImport } from './routes/_authenticated/familia'
+import { Route as AuthenticatedSemanaRouteImport } from './routes/_authenticated/semana'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -39,18 +40,25 @@ const AuthenticatedFamiliaRoute = AuthenticatedFamiliaRouteImport.update({
   path: '/familia',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedSemanaRoute = AuthenticatedSemanaRouteImport.update({
+  id: '/semana',
+  path: '/semana',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/compra': typeof AuthenticatedCompraRoute
   '/familia': typeof AuthenticatedFamiliaRoute
+  '/semana': typeof AuthenticatedSemanaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/compra': typeof AuthenticatedCompraRoute
   '/familia': typeof AuthenticatedFamiliaRoute
+  '/semana': typeof AuthenticatedSemanaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -59,12 +67,13 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/_authenticated/compra': typeof AuthenticatedCompraRoute
   '/_authenticated/familia': typeof AuthenticatedFamiliaRoute
+  '/_authenticated/semana': typeof AuthenticatedSemanaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/compra' | '/familia'
+  fullPaths: '/' | '/auth' | '/compra' | '/familia' | '/semana'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/compra' | '/familia'
+  to: '/' | '/auth' | '/compra' | '/familia' | '/semana'
   id:
     | '__root__'
     | '/'
@@ -72,6 +81,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/_authenticated/compra'
     | '/_authenticated/familia'
+    | '/_authenticated/semana'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -117,17 +127,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFamiliaRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/semana': {
+      id: '/_authenticated/semana'
+      path: '/semana'
+      fullPath: '/semana'
+      preLoaderRoute: typeof AuthenticatedSemanaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedCompraRoute: typeof AuthenticatedCompraRoute
   AuthenticatedFamiliaRoute: typeof AuthenticatedFamiliaRoute
+  AuthenticatedSemanaRoute: typeof AuthenticatedSemanaRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedCompraRoute: AuthenticatedCompraRoute,
   AuthenticatedFamiliaRoute: AuthenticatedFamiliaRoute,
+  AuthenticatedSemanaRoute: AuthenticatedSemanaRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
