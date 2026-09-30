@@ -79,12 +79,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Menú de la familia" },
+      { title: "SaborIA" },
       {
         name: "description",
         content: "Planifica las comidas y cenas semanales de tu familia.",
       },
-      { property: "og:title", content: "Menú de la familia" },
+      { property: "og:title", content: "SaborIA" },
       {
         property: "og:description",
         content: "Planifica las comidas y cenas semanales de tu familia.",
