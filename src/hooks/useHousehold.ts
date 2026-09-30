@@ -31,20 +31,21 @@ async function getOrCreateHousehold(): Promise<Household> {
     return data as unknown as Household;
   }
 
-  const { data: created, error: createError } = await supabase
-    .from("households")
-    .insert({ name: "Mi familia", owner_id: user.id })
-    .select()
-    .single();
+  const { data: newId, error: createError } = await supabase.rpc("create_household", {
+    _name: "Mi familia",
+  });
   if (createError) throw createError;
 
-  const { error: linkError } = await supabase
-    .from("household_users")
-    .insert({ household_id: created.id, user_id: user.id });
-  if (linkError) throw linkError;
+  const { data, error } = await supabase
+    .from("households")
+    .select("*")
+    .eq("id", newId as unknown as string)
+    .single();
+  if (error) throw error;
 
-  return created as unknown as Household;
+  return data as unknown as Household;
 }
+
 
 export function useHousehold() {
   return useQuery({

@@ -429,6 +429,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_household: { Args: { _name?: string }; Returns: string }
       is_household_member: { Args: { _household_id: string }; Returns: boolean }
     }
     Enums: {

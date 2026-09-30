@@ -42,7 +42,10 @@ async function askAi(prompt: string): Promise<string> {
       model: "openai/gpt-6-astra",
       instructions: SYSTEM_PROMPT,
       input: prompt,
+      reasoning: { effort: "medium" },
+      store: false,
       text: { format: { type: "json_object" } },
+
     }),
   });
 
