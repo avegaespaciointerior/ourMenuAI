@@ -11,12 +11,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Entrar — Menú de la familia" },
+      { title: "Entrar — SaborIA" },
       {
         name: "description",
         content: "Accede para planificar las comidas y cenas semanales de tu familia.",
       },
-      { property: "og:title", content: "Entrar — Menú de la familia" },
+      { property: "og:title", content: "Entrar — SaborIA" },
       {
         property: "og:description",
         content: "Accede para planificar las comidas y cenas semanales de tu familia.",
@@ -80,7 +80,7 @@ function AuthPage() {
     <div className="flex min-h-screen items-center justify-center bg-background px-4 py-10">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="font-display text-2xl">Menú de la familia</CardTitle>
+          <CardTitle className="font-display text-2xl">SaborIA</CardTitle>
           <CardDescription>
             {mode === "login" ? "Entra con tu correo" : "Crea tu cuenta para empezar"}
           </CardDescription>

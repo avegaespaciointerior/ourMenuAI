@@ -7,13 +7,13 @@ import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Menú de la familia — comidas y cenas de la semana" },
+      { title: "SaborIA — comidas y cenas de la semana" },
       {
         name: "description",
         content:
           "Planifica las comidas y cenas semanales de tu familia con recetas mediterráneas de siempre y lista de compra por tienda.",
       },
-      { property: "og:title", content: "Menú de la familia" },
+      { property: "og:title", content: "SaborIA" },
       {
         property: "og:description",
         content:
