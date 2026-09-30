@@ -181,9 +181,11 @@ function SemanaPage() {
                             <Button
                               variant="ghost"
                               size="sm"
+                              aria-label="Cambiar este plato"
                               onClick={() => handleSwap(item.id)}
                               disabled={swapping === item.id}
                             >
+
                               {swapping === item.id ? (
                                 <Loader2 className="size-4 animate-spin" />
                               ) : (
