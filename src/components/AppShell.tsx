@@ -3,6 +3,7 @@ import { CalendarDays, ShoppingBasket, UsersRound, LogOut } from "lucide-react";
 import type { ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { BrandLogo } from "@/components/BrandLogo";
 
 const NAV = [
   { to: "/semana", label: "Semana", icon: CalendarDays },
@@ -24,8 +25,9 @@ export function AppShell({
   return (
     <div className="min-h-screen bg-background pb-24">
       <header className="border-b border-border/70 bg-card/80 backdrop-blur">
-        <div className="mx-auto flex max-w-3xl items-center justify-between gap-4 px-4 py-5">
-          <div>
+        <div className="mx-auto flex max-w-3xl items-center justify-between gap-4 px-4 py-4">
+          <div className="min-w-0">
+            <BrandLogo compact />
             <h1 className="font-display text-2xl leading-tight text-foreground">{title}</h1>
             {subtitle ? (
               <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>

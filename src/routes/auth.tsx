@@ -7,20 +7,23 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { BrandLogo } from "@/components/BrandLogo";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Entrar — SaborIA" },
+      { title: "Entrar — OurMenuIA" },
       {
         name: "description",
         content: "Accede para planificar las comidas y cenas semanales de tu familia.",
       },
-      { property: "og:title", content: "Entrar — SaborIA" },
+      { property: "og:title", content: "Entrar — OurMenuIA" },
       {
         property: "og:description",
         content: "Accede para planificar las comidas y cenas semanales de tu familia.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: AuthPage,
@@ -80,7 +83,8 @@ function AuthPage() {
     <div className="flex min-h-screen items-center justify-center bg-background px-4 py-10">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="font-display text-2xl">SaborIA</CardTitle>
+          <BrandLogo />
+          <CardTitle className="sr-only">OurMenuIA</CardTitle>
           <CardDescription>
             {mode === "login" ? "Entra con tu correo" : "Crea tu cuenta para empezar"}
           </CardDescription>

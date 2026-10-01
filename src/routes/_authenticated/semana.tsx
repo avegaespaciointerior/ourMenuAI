@@ -23,6 +23,16 @@ import {
 } from "@/lib/plan-rules";
 
 export const Route = createFileRoute("/_authenticated/semana")({
+  head: () => ({
+    meta: [
+      { title: "Mi semana — OurMenuIA" },
+      { name: "description", content: "Consulta y genera el menú semanal de tu familia." },
+      { property: "og:title", content: "Mi semana — OurMenuIA" },
+      { property: "og:description", content: "Consulta y genera el menú semanal de tu familia." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: SemanaPage,
 });
 
