@@ -15,6 +15,16 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { MEALS, DAY_NAMES } from "@/lib/plan-rules";
 
 export const Route = createFileRoute("/_authenticated/familia")({
+  head: () => ({
+    meta: [
+      { title: "Mi familia — OurMenuIA" },
+      { name: "description", content: "Configura los miembros, gustos y reglas de comida de tu familia." },
+      { property: "og:title", content: "Mi familia — OurMenuIA" },
+      { property: "og:description", content: "Configura los miembros, gustos y reglas de comida de tu familia." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: FamiliaPage,
 });
 

@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Render the product identity through the shared `BrandLogo` component so the uploaded symbol and exact brand name stay consistent.

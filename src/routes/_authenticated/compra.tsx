@@ -7,6 +7,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 
 export const Route = createFileRoute("/_authenticated/compra")({
+  head: () => ({
+    meta: [
+      { title: "Lista de compra — OurMenuIA" },
+      { name: "description", content: "Consulta la compra semanal de tu familia agrupada por tienda." },
+      { property: "og:title", content: "Lista de compra — OurMenuIA" },
+      { property: "og:description", content: "Consulta la compra semanal de tu familia agrupada por tienda." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: CompraPage,
 });
 

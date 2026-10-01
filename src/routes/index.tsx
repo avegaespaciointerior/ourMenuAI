@@ -3,17 +3,18 @@ import { useEffect } from "react";
 import { CalendarDays, Leaf, ShoppingBasket } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { BrandLogo } from "@/components/BrandLogo";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "SaborIA — comidas y cenas de la semana" },
+      { title: "OurMenuIA — comidas y cenas de la semana" },
       {
         name: "description",
         content:
           "Planifica las comidas y cenas semanales de tu familia con recetas mediterráneas de siempre y lista de compra por tienda.",
       },
-      { property: "og:title", content: "SaborIA" },
+      { property: "og:title", content: "OurMenuIA" },
       {
         property: "og:description",
         content:
@@ -55,16 +56,19 @@ function Landing() {
 
   return (
     <div className="min-h-screen bg-background">
-      <section className="mx-auto max-w-3xl px-5 pt-20 pb-12 text-center">
+      <section className="mx-auto max-w-3xl px-5 pt-12 pb-12 text-center">
+        <div className="mb-8 flex justify-center">
+          <BrandLogo />
+        </div>
         <p className="text-sm font-medium uppercase tracking-[0.2em] text-primary">
           Dieta mediterránea de siempre
         </p>
         <h1 className="mt-4 font-display text-4xl leading-tight text-foreground sm:text-5xl">
-          El menú de la semana de tu familia, resuelto
+          OurMenuIA
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-base text-muted-foreground">
-          Menús con verdura y fruta todos los días, recetas sencillas entre semana y la lista de
-          compra lista para salir de casa.
+          El menú de la semana de tu familia, resuelto con recetas sencillas, verdura y fruta a
+          diario y la lista de compra lista para salir de casa.
         </p>
         <div className="mt-8 flex justify-center">
           <Button asChild size="lg">
