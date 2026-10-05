@@ -63,6 +63,13 @@ export function weekDays(weekStart: string): string[] {
   });
 }
 
+/** YYYY-MM-DD shifted by `delta` days. */
+export function addDays(day: string, delta: number): string {
+  const d = new Date(`${day}T00:00:00Z`);
+  d.setUTCDate(d.getUTCDate() + delta);
+  return d.toISOString().slice(0, 10);
+}
+
 export function formatDayLabel(day: string): string {
   const d = new Date(`${day}T00:00:00Z`);
   const dow = d.getUTCDay() === 0 ? 6 : d.getUTCDay() - 1;
@@ -147,6 +154,55 @@ export function validatePlan(
   return errors;
 }
 
+// ---------------------------------------------------------------------------
+// Estadísticas y resumen CALCULADOS a partir de los platos reales de la semana.
+// Así el texto "Por qué es saludable" nunca se queda desactualizado tras un "Cambiar".
+// ---------------------------------------------------------------------------
+
+export type PlanStats = {
+  legumeDays: string[];
+  fishCount: number;
+  redMeatCount: number;
+  pastaDinners: number;
+};
+
+export function computePlanStats(items: PlanItem[]): PlanStats {
+  return {
+    legumeDays: [...new Set(items.filter((i) => i.is_legume).map((i) => i.day))].sort(),
+    fishCount: items.filter((i) => i.is_fish).length,
+    redMeatCount: items.filter((i) => i.is_red_meat).length,
+    pastaDinners: items.filter((i) => i.meal === "cena" && i.is_pasta).length,
+  };
+}
+
+function joinEs(list: string[]): string {
+  if (list.length <= 1) return list.join("");
+  return `${list.slice(0, -1).join(", ")} y ${list[list.length - 1]}`;
+}
+
+function plural(n: number, one: string, many: string): string {
+  return `${n} ${n === 1 ? one : many}`;
+}
+
+/**
+ * Texto del recuadro "Por qué es saludable": primero los datos calculados y,
+ * después, las notas cualitativas de la IA (que no contienen cifras ni días).
+ */
+export function summarizePlan(items: PlanItem[], notes = ""): string {
+  const s = computePlanStats(items);
+  const legumeLabel = joinEs(s.legumeDays.map((d) => DAY_NAMES[weekdayOf(d) - 1]!.toLowerCase()));
+  const head = [
+    s.legumeDays.length > 0
+      ? `Legumbres ${plural(s.legumeDays.length, "día", "días")} (${legumeLabel}).`
+      : "Sin legumbres esta semana.",
+    `Pescado: ${plural(s.fishCount, "plato", "platos")}.`,
+    `Carne roja: ${plural(s.redMeatCount, "plato", "platos")}.`,
+    s.pastaDinners === 0 ? "Sin pasta en las cenas." : `Pasta en ${plural(s.pastaDinners, "cena", "cenas")}.`,
+  ].join(" ");
+  const extra = notes.trim();
+  return extra ? `${head}\n\n${extra}` : head;
+}
+
 export type ShoppingLine = {
   name: string;
   quantity: number;
@@ -178,14 +234,20 @@ export function buildShoppingList(
     }
   }
 
+  // La despensa se consume una sola vez: si el mismo ingrediente aparece en varias
+  // líneas (p. ej. tiendas distintas), lo que sobra de una pasa a la siguiente.
   for (const p of pantry) {
+    let remaining = Number(p.quantity ?? 0);
     for (const [key, line] of map) {
+      if (remaining <= 0) break;
       if (
         line.name.toLowerCase() === p.name.toLowerCase().trim() &&
         line.unit.toLowerCase() === (p.unit ?? "").toLowerCase()
       ) {
-        line.quantity = Math.max(0, line.quantity - Number(p.quantity ?? 0));
-        if (line.quantity === 0) map.delete(key);
+        const take = Math.min(line.quantity, remaining);
+        line.quantity -= take;
+        remaining -= take;
+        if (line.quantity <= 0) map.delete(key);
       }
     }
   }
