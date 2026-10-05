@@ -176,6 +176,7 @@ export type Database = {
           household_id: string
           id: string
           summary: string | null
+          summary_notes: string | null
           week_start: string
         }
         Insert: {
@@ -184,6 +185,7 @@ export type Database = {
           household_id: string
           id?: string
           summary?: string | null
+          summary_notes?: string | null
           week_start: string
         }
         Update: {
@@ -192,6 +194,7 @@ export type Database = {
           household_id?: string
           id?: string
           summary?: string | null
+          summary_notes?: string | null
           week_start?: string
         }
         Relationships: [
